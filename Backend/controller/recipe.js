@@ -1,32 +1,46 @@
+const recipe = require("../models/recipe")
 const Recipes = require("../models/recipe")
 
-const getRecipes=(req,res)=>{
-    const recipes=await Recipes.find()
+const getRecipes = (req, res) => {
+    const recipes = await Recipes.find()
     return res.json(recipes)
 }
-const getRecipe=(req,res)=>{
-    res.json({message:"Hello"})
+const getRecipe = (req, res) => {
+    const recipes = await Recipes.findById(req.params.id)
+    res.json(recipe)
 }
-const addRecipe=async(req,res)=>{
-    const{tittle,ingredients,instructions,time}=req.body; 
-    
-    if(!tittle || !ingredients || !instructions ) {
-        res.json({message:"required fields can not be empty habibo"})
+const addRecipe = async (req, res) => {
+    const { tittle, ingredients, instructions, time } = req.body;
+
+    if (!tittle || !ingredients || !instructions) {
+        res.json({ message: "required fields can not be empty habibo" })
     }
 
     const newRecipe = await Recipes.create({
-        tittle,ingredients,ingredients,time
+        tittle, ingredients, ingredients, time
     })
 
     return res.json(newRecipe)
 }
-const editRecipe=(req,res)=>{
-    res.json({message:"Hello"})
+const editRecipe = async (req, res) => {
+    const { tittle, ingredients, instructions, time } = req.body
+    let recipe = await Recipes.findById(req.params.id)
+    try {
+        if (recipe) {
+            await Recipes.findById(req.params.id, req.body, { new: true })
+            res.json({ tittle, ingredients, instructions, time })
+        }
+    }
+    catch(err){
+        return res.status(404).json({message:"error"})
+    }
+
 }
-const deleteRecipe=(req,res)=>{
-    res.json({message:"Hello"})
+
+const deleteRecipe = (req, res) => {
+    res.json({ message: "Hello" })
 }
 
 
 
-module.exports={getRecipes,getRecipe,addRecipe,editRecipe,deleteRecipe}
+module.exports = { getRecipes, getRecipe, addRecipe, editRecipe, deleteRecipe }
