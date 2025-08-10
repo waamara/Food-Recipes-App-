@@ -1,13 +1,23 @@
 import './App.css'
-import {creatBrowserRouter,RouterProvider} from "react-router-dom"
+import {createBrowserRouter,RouterProvider} from "react-router-dom"
 import Home from './pages/Home'
+import MainNavigation from './components/MainNavigation'
 
-const router = creatBrowserRouter([
-  {path:"/",element:<Home/>}
+const getAllRecipes = async () => {
+  let allRecipes=[]
+  await
+}
+
+const router = createBrowserRouter([
+  {path:"/",element:<MainNavigation/>,children:[
+    {path:"/",element:<Home/>}
+  ]},
 ])
 
 export default function App() {
   return (
-    <div></div>
+    <>
+    <RouterProvider router={router}></RouterProvider>
+    </>
   )
 }
