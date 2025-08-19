@@ -1,4 +1,8 @@
 const User = require("../models/user")
+const bcrypt = require("bcrypt")
+const jwt=require("jsonwebtoken") 
+
+
 
 const userSignUp=async(res,req)=>{
     const {email,password}=req.body
@@ -9,6 +13,11 @@ const userSignUp=async(res,req)=>{
     if(user){
         return res.status(400).json({error:"Email is already Exist"})
     }
+    const hashPwd=await bcrypt.hash(password,10)
+    const newUser=await User.create({
+        email,password:hashPwd
+    })
+    let token=jwt.sign({})
 } 
 
 const userLogin=async(res,req)=>{
