@@ -17,7 +17,8 @@ const userSignUp=async(res,req)=>{
     const newUser=await User.create({
         email,password:hashPwd
     })
-    let token=jwt.sign({})
+    let token=jwt.sign({email,id:newUser._id},process.env.SECRET_KEY{expiresIn:"1h"})
+    return res.status(200).json({token,newUser})
 } 
 
 const userLogin=async(res,req)=>{
