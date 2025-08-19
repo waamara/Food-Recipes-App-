@@ -5,5 +5,12 @@ const userShema=mongoose.Shema({
         type:String,
         required:true,
         unique:true
-    }
-},timestamps:true)
+    },
+    password:{
+        type:String, 
+        required:true,
+    } 
+},{timestamps:true})
+
+
+module.exports=mongoose.model("User",userShema)
