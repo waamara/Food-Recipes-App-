@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useState } from 'react'
 
 
 
@@ -7,6 +8,7 @@ const inputform = ({setIsOpen}) => {
         const [email,setEmail] = useState("")
         const [password,setPassword]=useState("")
         const [isSignUp,setIsSignUp]=useState(false)
+        const [error,setError]=useState("")
         
         const handleOnSubmit=(e)=>{
             e.preventDefault() 
@@ -17,8 +19,8 @@ const inputform = ({setIsOpen}) => {
                 localStorage.setItem("user",JSON.stringify(res.data.user))
                 setIsOpen()
             }
-        )
-        }
+        )}
+        .catch(data=>setError(data.response?.data?.error))
     }
     return (
         <>
@@ -32,6 +34,7 @@ const inputform = ({setIsOpen}) => {
                     <input type="password" className="input" onChange={(e)=>setPassword(e.target.value)} required />
                 </div>
                 <button type="submit">{(isSignUp)?"Sign Up" : "Login"}Login</button><br />
+                {(error!="") && <h6 className='error'>{error}</h6>}
                 <p onClick={()=>setIsSignUp(pre=>!pre)}>{(isSignUp) ? "Already have an Account" : "Create New Account"}</p>
             </form>
         </>        
